@@ -115,6 +115,5 @@ class SecondVC: UIViewController,UINavigationControllerDelegate, UIImagePickerCo
         widthImgProfile.constant = 35.0
         self.viewHeader.setNeedsLayout()
         
-        self.viewHeader.backgroundColor = UIColor.red
     }
 }
