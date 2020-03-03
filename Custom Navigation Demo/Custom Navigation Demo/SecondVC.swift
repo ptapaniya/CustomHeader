@@ -31,13 +31,19 @@ class SecondVC: UIViewController,UINavigationControllerDelegate, UIImagePickerCo
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationItem.titleView = viewHeader
 
+        self.imgProfile.layer.cornerRadius = self.imgProfile.frame.height/2
+        
         widthImgProfile.constant = (imgProfile.image != nil) ? 35.0 : 0.0
        self.viewHeader.setNeedsLayout()
         
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        SetHeader()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+//        SetHeader()
     }
     
     @IBAction func pressBtnTitle(_ sender: UIButton) {
@@ -92,13 +98,28 @@ class SecondVC: UIViewController,UINavigationControllerDelegate, UIImagePickerCo
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-               imgUserProfile = pickedImage
-          }
-
-        SetHeader()
         
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: {
+            
+            if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                //            imgUserProfile = pickedImage
+                
+                self.imgProfile.image = pickedImage
+                
+                self.viewHeader.backgroundColor = UIColor.red
+                
+                var viewFrame = self.viewHeader.frame
+                viewFrame.size.width = viewFrame.width - 35.0
+                self.viewHeader.frame = viewFrame
+                
+                self.widthImgProfile.constant = 35.0
+                self.viewHeader.setNeedsLayout()
+                
+            }
+        })
+        
+        //        SetHeader()
+        
     }
   
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -107,13 +128,9 @@ class SecondVC: UIViewController,UINavigationControllerDelegate, UIImagePickerCo
    
     func SetHeader() {
         
-        self.imgProfile.image = imgUserProfile
-            
-        self.imgProfile.layer.cornerRadius = self.imgProfile.frame.height/2
         
-        self.viewHeader.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 200, height: 44)
-        widthImgProfile.constant = 35.0
-        self.viewHeader.setNeedsLayout()
+        self.viewHeader.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width - 210, height: 44)
+      
         
     }
 }
